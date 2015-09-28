@@ -1,7 +1,7 @@
 # CV Spider V4
 
 Built in September 2015.
-Fourth version of CV spider that search with Walla search that uses Google search in view source, emails that matches some keys, and send automatic emails that found, using only ASHX files.
+This is the fourth version of CV spider that search with Walla search that uses Google search in view source, emails that matches some keys, and send automatic emails that found, using only ASHX files.
 
 ## Getting Started
 
@@ -11,10 +11,9 @@ Clone the project to your computer.
 
 You'll need to install .Net and SQL Stored Procedure (Recommended to work with SQL management studio).
 
-
 ## Built With
 
-* [ASP.NET Console](https://docs.microsoft.com/en-us/dotnet/api/system.console?view=netframework-4.7.2) - The web framework used.
+* [ASP.NET Web-Forms](https://www.asp.net/web-forms) - The web framework used.
 * [SQL](https://azure.microsoft.com/en-us/services/sql-database/) - The database used.
 * [Stored Procedure](https://docs.microsoft.com/en-us/sql/relational-databases/stored-procedures/create-a-stored-procedure?view=sql-server-2017) - The component of .NET Framework.
 * [GIT](https://git-scm.com/) - Source Management.
