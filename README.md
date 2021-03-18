@@ -1,6 +1,6 @@
 # CV Spider V4
 
-Built in September 2015. This is the fourth version of CV spider that search with Walla search that uses Google search in view source, emails that matches some keys, and send automatic emails that found, using only ASHX files.
+Built in September 2015. This is the fourth version of CV spider that searches with Walla search that uses Google search in view source, emails that match some keys, and send automatic emails that are found, using only ASHX files.
 
 ## Getting Started
 
@@ -35,4 +35,4 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This application has UNLICENSED License.
+This application has an UNLICENSED License.
