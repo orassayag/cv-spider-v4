@@ -1,13 +1,23 @@
 {
-    "cSpell.words": [
-        "ASHX",
-        "Assayag",
-        "comn",
-        "gmail",
-        "ilcom",
-        "muni",
-        "netl",
-        "njet",
-        "orassayag"
-    ]
+  "cSpell.words": [
+    "ASHX",
+    "Assayag",
+    "comn",
+    "GETDATE",
+    "gmail",
+    "ilcom",
+    "msbuild",
+    "muni",
+    "netl",
+    "njet",
+    "orassayag",
+    "VARCHAR"
+  ],
+  "cSpell.ignorePaths": [
+    "coverage",
+    "node_modules",
+    "dist",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml"
+  ]
 }

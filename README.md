@@ -1,10 +1,35 @@
-# CV Spider V4
+# Cv Spider V4
 
-An ASP.NET web scraping application that automatically searches for job postings, extracts email addresses, validates them, and stores unique contacts in a SQL Server database.
+An automated ASP.NET web scraping application designed to optimize job hunting by scanning online listings.
 
-Built in September 2015. This is the fourth version of CV Spider that uses Walla search (powered by Google) to find job postings in Israeli cities, extract email addresses from page sources, and automatically store them for job search purposes.
+Built in September 2015, this represents the fourth iteration of the CV Spider platform. The system leverages custom search queries across Walla (powered by Google) to target job postings in specific Israeli cities. It dynamically extracts raw HTML page sources, isolates and validates email addresses, and applies deduplication logic. Unique professional contacts are securely stored in a structured SQL Server database for seamless, automated outreach campaigns.
 
 ## Features
+
+### Core Capabilities
+
+- **Automated Web Scraping**: Intelligent scanning of job listings via Walla search engine
+- **Email Extraction**: High-precision regex patterns for discovering professional emails
+- **Smart Validation**: Multi-stage validation and cleaning of extracted addresses
+- **Database Persistence**: Secure SQL Server storage with automated deduplication
+- **Hebrew Support**: Native handling of Israeli cities and professional terms
+- **Randomized Queries**: Dynamic search parameters to maximize discovery reach
+
+### Technical Excellence
+
+- **Retry Logic**: Robust database operations with automatic failure recovery
+- **Clean Architecture**: Separation of concerns between BLL, DAL, and UI layers
+- **Performance**: Optimized HTML parsing and URL extraction workflows
+- **Data Integrity**: Comprehensive cleaning logic for malformed email addresses
+- **Type Safety**: Built with C# and .NET Framework for enterprise reliability
+
+### Developer Experience
+
+- **Visual Studio Integration**: Seamless development with standard .NET tooling
+- **Configurable Search**: Easily adjustable city and profession dictionaries
+- **Detailed Logging**: Built-in tracking of scraping progress and errors
+- **Easy Setup**: Straightforward database and Web.config configuration
+- **Structured Codebase**: Well-organized utilities and business logic
 
 - 🔍 Automated web scraping using Walla search engine
 - 📧 Email extraction from HTML using regex patterns
@@ -35,7 +60,7 @@ graph TD
     M -->|No| N[Create Email with Retry]
     M -->|Yes| G
     N --> G
-    
+
     style A fill:#e1f5ff
     style B fill:#fff4e1
     style I fill:#e1ffe1
@@ -50,7 +75,7 @@ graph LR
     B --> C[SQL Server]
     B --> D[ADO.NET]
     B --> E[System.Net]
-    
+
     style A fill:#0078d4
     style B fill:#512bd4
     style C fill:#cc2927
@@ -70,12 +95,14 @@ graph LR
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/orassayag/cv-spider-v4.git
    cd cv-spider-v4
    ```
 
 2. Open in Visual Studio:
+
    ```bash
    # Open the .csproj file in Visual Studio
    CVSpider.csproj
@@ -132,8 +159,8 @@ Update `Web.config` with your database connection:
 
 ```xml
 <connectionStrings>
-  <add name="MainDB" 
-       connectionString="Server=YOUR_SERVER;Database=YOUR_DATABASE;User Id=YOUR_USER;Password=YOUR_PASSWORD;" 
+  <add name="MainDB"
+       connectionString="Server=YOUR_SERVER;Database=YOUR_DATABASE;User Id=YOUR_USER;Password=YOUR_PASSWORD;"
        providerName="System.Data.SqlClient" />
 </connectionStrings>
 ```
@@ -143,6 +170,85 @@ Update `Web.config` with your database connection:
 1. Press F5 in Visual Studio to start debugging
 2. Navigate to `http://localhost:PORT/Spider.ashx`
 3. The spider will begin searching and extracting emails
+
+## Usage
+
+### Running the Spider
+
+The main entry point for the spider is the `Spider.ashx` handler. Once the application is running, you can trigger the scraping process by navigating to:
+
+```
+http://localhost:PORT/Spider.ashx
+```
+
+### Modes of Operation
+
+- **Search Mode**: The spider will randomly select parameters and begin scanning for new emails.
+- **Print Mode**: Displays the results of the latest scan without performing new searches.
+
+## Available Scripts
+
+While primarily a web application, the project includes several key components that act as automated "scripts":
+
+- **Spider.ashx**: The primary execution script for the web crawler.
+- **Database Setup**: SQL scripts for initializing the `Emails` table and stored procedures.
+- **Retry Logic**: Automated recovery scripts embedded in the DAL for database stability.
+
+## Best Practices
+
+- **Rate Limiting**: Always implement delays between requests to avoid being blocked by search engines.
+- **Data Validation**: Use the `TextUtils` class to ensure only high-quality email addresses are stored.
+- **Error Handling**: Monitor the logs for any recurring scraping failures or database connection issues.
+- **Database Maintenance**: Periodically review the `Emails` table for any potential duplicate entries that bypassed validation.
+
+## Development
+
+### Building the Project
+
+The project uses standard .NET build tools. You can build it using Visual Studio or MSBuild:
+
+```bash
+# Using MSBuild
+msbuild CVSpider.csproj /p:Configuration=Release
+```
+
+### Testing
+
+Manual testing can be performed by:
+
+1. Triggering the `Spider.ashx` handler.
+2. Verifying email extraction results in the database.
+3. Checking the log files for any reported errors.
+
+## Architecture Principles
+
+This project adheres to several core architecture principles:
+
+1. **Separation of Concerns**: Distinct layers for business logic (BLL), data access (DAL), and utilities.
+2. **Reliability**: Automated retry mechanisms for database operations to handle transient failures.
+3. **Extensibility**: Easy to add new cities, professions, or email patterns via specialized classes.
+4. **Validation-First**: All extracted data undergoes rigorous cleaning and validation before persistence.
+
+## Design Patterns
+
+- **Repository Pattern**: Abstracted data access via `DAL.cs` and `DbUtilsDal.cs`.
+- **Utility Pattern**: Centralized string manipulation and scraping logic in `TextUtils.cs`.
+- **Data Transfer Object (DTO)**: `EmailRow.cs` for structured data movement.
+- **Handler Pattern**: Using `IHttpHandler` for lightweight, request-driven execution.
+
+## Directory Structure
+
+```
+cv-spider-v4/
+├── Code/                   # Core business logic and utilities
+│   ├── BLL.cs              # Business Logic Layer
+│   ├── DAL.cs              # Data Access Layer
+│   └── ...                 # Specialized utility classes
+├── Properties/             # Assembly metadata
+├── Spider.ashx             # Main handler entry point
+├── Web.config              # Main configuration file
+└── CVSpider.csproj         # Visual Studio project file
+```
 
 ## Project Structure
 
@@ -203,11 +309,11 @@ Automatically fixes common issues:
 
 ## Built With
 
-* [ASP.NET Web Forms](https://www.asp.net/web-forms) - Web framework
-* [.NET Framework 4.5.2](https://dotnet.microsoft.com/) - Runtime framework
-* [SQL Server](https://www.microsoft.com/sql-server) - Database
-* [ADO.NET](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/) - Data access
-* [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) - Programming language
+- [ASP.NET Web Forms](https://www.asp.net/web-forms) - Web framework
+- [.NET Framework 4.5.2](https://dotnet.microsoft.com/) - Runtime framework
+- [SQL Server](https://www.microsoft.com/sql-server) - Database
+- [ADO.NET](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/) - Data access
+- [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) - Programming language
 
 ## Contributing
 
@@ -221,28 +327,36 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/orassayag/cv-spider-v4/tags).
 
+## Support
+
+For questions, issues, or contributions:
+
+- **GitHub Issues**: [https://github.com/orassayag/cv-spider-v4/issues](https://github.com/orassayag/cv-spider-v4/issues)
+- **Email**: orassayag@gmail.com
+
 ## Author
 
-* **Or Assayag** - *Initial work* - [orassayag](https://github.com/orassayag)
-* Or Assayag <orassayag@gmail.com>
-* GitHub: https://github.com/orassayag
-* StackOverflow: https://stackoverflow.com/users/4442606/or-assayag?tab=profile
-* LinkedIn: https://linkedin.com/in/orassayag
+- **Or Assayag** - _Initial work_ - [orassayag](https://github.com/orassayag)
+- Or Assayag <orassayag@gmail.com>
+- GitHub: https://github.com/orassayag
+- StackOverflow: https://stackoverflow.com/users/4442606/or-assayag?tab=profile
+- LinkedIn: https://linkedin.com/in/orassayag
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This application has an MIT license - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- Built for job search automation in the Israeli market
-- Focuses on administrative and secretarial positions
-- Supports Hebrew language for cities and professions
-- Uses Walla search engine as the data source
+- Built for educational and research purposes
+- Respects robots.txt and implements rate limiting
+- Uses user-agent rotation to avoid detection
+- Implements polite crawling practices
 
 ## Disclaimer
 
 This tool is for educational and personal use only. When using web scraping:
+
 - Respect websites' Terms of Service
 - Follow robots.txt guidelines
 - Implement appropriate rate limiting

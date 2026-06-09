@@ -1,17 +1,59 @@
-# Instructions
+# Setup and Usage Instructions
+
+## Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Initial Setup](#initial-setup)
+3. [Database Configuration](#database-configuration)
+4. [Available Commands](#available-commands)
+5. [Running the Application](#running-the-application)
+6. [Configuration](#configuration)
+7. [How It Works](#how-it-works)
+8. [Extending the Application](#extending-the-application)
+9. [Troubleshooting](#troubleshooting)
+10. [Development](#development)
+11. [Best Practices](#best-practices)
+12. [Documentation](#documentation)
+13. [External Resources](#external-resources)
 
 ## Setup Instructions
 
 ### Prerequisites
+
+#### System Requirements
+
+- **.NET Framework**: Version 4.5.2 or higher
+- **IDE**: Visual Studio 2013 or higher
+- **Database**: SQL Server (Express, Standard, or Enterprise)
+- **Web Server**: IIS Express (for development) or IIS (for production)
+- **Operating System**: Windows 7 or higher / Windows Server 2012 or higher
 
 1. **Visual Studio** (2013 or higher recommended)
 2. **.NET Framework** 4.5.2 or higher
 3. **SQL Server** (any edition)
 4. **IIS Express** (included with Visual Studio) or IIS
 
-### Installation
+## Initial Setup
+
+### 1. Install Dependencies
+
+The project uses NuGet for package management. Dependencies are defined in `packages.config`.
+
+**Using Visual Studio:**
+
+- Right-click the Solution and select "Restore NuGet Packages".
+- Visual Studio will automatically download and install the required packages.
+
+**Using NuGet CLI:**
+
+```bash
+nuget restore CVSpider.csproj
+```
+
+### 2. Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/orassayag/cv-spider-v4.git
    cd cv-spider-v4
@@ -34,8 +76,8 @@ Update the connection string in `Web.config`:
 
 ```xml
 <connectionStrings>
-  <add name="MainDB" 
-       connectionString="Server=YOUR_SERVER;Database=YOUR_DATABASE;User Id=YOUR_USER;Password=YOUR_PASSWORD;" 
+  <add name="MainDB"
+       connectionString="Server=YOUR_SERVER;Database=YOUR_DATABASE;User Id=YOUR_USER;Password=YOUR_PASSWORD;"
        providerName="System.Data.SqlClient" />
 </connectionStrings>
 ```
@@ -45,6 +87,7 @@ Update the connection string in `Web.config`:
 Create the following stored procedures in your database:
 
 #### 1. CreateEmail
+
 ```sql
 CREATE PROCEDURE dbo.CreateEmail
     @Email VARCHAR(255)
@@ -59,6 +102,7 @@ END
 ```
 
 #### 2. GetEmail
+
 ```sql
 CREATE PROCEDURE dbo.GetEmail
     @Email VARCHAR(255)
@@ -71,6 +115,7 @@ END
 ```
 
 #### 3. Create Emails Table
+
 ```sql
 CREATE TABLE Emails (
     Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -78,6 +123,36 @@ CREATE TABLE Emails (
     CreatedDate DATETIME NOT NULL DEFAULT GETDATE()
 )
 ```
+
+## Available Commands
+
+### Development Commands
+
+**Building the Solution:**
+
+```bash
+# Build in Debug mode
+msbuild CVSpider.csproj /p:Configuration=Debug
+
+# Build in Release mode
+msbuild CVSpider.csproj /p:Configuration=Release
+```
+
+**Restoring Packages:**
+
+```bash
+# Restore NuGet dependencies
+nuget restore CVSpider.csproj
+```
+
+### Running Scripts
+
+The application uses the `Spider.ashx` handler as its primary execution script.
+
+**Triggering the Spider:**
+
+- Access `http://localhost:PORT/Spider.ashx` in your browser.
+- Or use a tool like `curl` or `Postman` to send a GET request to the handler.
 
 ## Running the Application
 
@@ -117,6 +192,8 @@ int printFromSeconds = 0;
 // Log file path
 string mainPath = @"C:\Or\Web\CVSpider\CVSpider\CVSpider\CVSpider\Logs\";
 ```
+
+## Extending the Application
 
 ### Customizing Search
 
@@ -190,6 +267,7 @@ To customize the search:
 ### Logs
 
 Configure logging in `Web.config`:
+
 ```xml
 <system.diagnostics>
   <trace enabled="true" />
@@ -228,10 +306,38 @@ msbuild CVSpider.csproj /p:Configuration=Release
 - The retry logic attempts up to 10 times for database operations
 - Hebrew text (cities, professions) is properly encoded in UTF-8
 
+## Best Practices
+
+- **Security**: Never expose your database connection string in public repositories. Use `Web.config` transformations or environment variables for production.
+- **Performance**: Monitor the execution time of `Spider.ashx`. If it becomes too slow, consider moving the scraping logic to a background worker or Windows Service.
+- **Data Privacy**: Ensure that the collected emails are handled in accordance with local data protection regulations.
+- **Rate Limiting**: Use the randomized delays already implemented in the code to minimize the risk of being IP-blocked by search engines.
+
+## Documentation
+
+- **README.md**: High-level project overview, features, and architecture.
+- **INSTRUCTIONS.md**: Detailed setup, usage, and development guidelines.
+- **Code Comments**: Inline documentation within `.cs` files explaining complex logic and regex patterns.
+
+## External Resources
+
+- [ASP.NET Web Forms Documentation](https://docs.microsoft.com/en-us/aspnet/web-forms/)
+- [.NET Framework 4.5.2 Lifecycle](https://docs.microsoft.com/en-us/lifecycle/products/microsoft-net-framework-452)
+- [SQL Server Stored Procedures](https://docs.microsoft.com/en-us/sql/relational-databases/stored-procedures/stored-procedures-database-engine)
+- [NuGet Package Manager Documentation](https://docs.microsoft.com/en-us/nuget/)
+
+## Version
+
+**Current Version**: 4.0.0
+
+## Last Updated
+
+**Date**: 2026-06-09
+
 ## Author
 
-* **Or Assayag** - *Initial work* - [orassayag](https://github.com/orassayag)
-* Or Assayag <orassayag@gmail.com>
-* GitHub: https://github.com/orassayag
-* StackOverflow: https://stackoverflow.com/users/4442606/or-assayag?tab=profile
-* LinkedIn: https://linkedin.com/in/orassayag
+- **Or Assayag** - _Initial work_ - [orassayag](https://github.com/orassayag)
+- Or Assayag <orassayag@gmail.com>
+- GitHub: https://github.com/orassayag
+- StackOverflow: https://stackoverflow.com/users/4442606/or-assayag?tab=profile
+- LinkedIn: https://linkedin.com/in/orassayag
